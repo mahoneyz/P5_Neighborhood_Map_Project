@@ -35,13 +35,13 @@ infoBubble.addTab('Street View','Street View not found for this area.');
 
 // the model
 var places = [
-     { id:  1, placename: 'Veterans Park' ,map: map.gMap, position: { lat: 41.7125, lng: -81.349 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 }
-    ,{ id:  2, placename: 'Lost Nation Airport' ,map: map.gMap, position: { lat: 41.6850, lng: -81.388 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 }
-    ,{ id:  3, placename: 'Great Lakes Mall' ,map: map.gMap, position: { lat: 41.6560, lng: -81.362 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 }
-    ,{ id:  4, placename: 'James A. Garfield' ,map: map.gMap, position: { lat: 41.6650, lng: -81.351 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 }
-    ,{ id:  5, placename: 'Lake Erie' ,map: map.gMap, position: { lat: 41.7125, lng: -81.388 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 }
-    ,{ id:  6, placename: 'Mentor Marsh State Nature Preserve' ,map: map.gMap, position: { lat: 41.7349, lng: -81.315 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 }
-    ,{ id:  7, placename: 'Headlands Beach State Park' ,map: map.gMap, position: { lat: 41.7560, lng: -81.290 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 }
+    { id:  1, placename: 'Veterans Park' ,map: map.gMap, position: { lat: 41.7125, lng: -81.349 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 },
+    { id:  2, placename: 'Lost Nation Airport' ,map: map.gMap, position: { lat: 41.6850, lng: -81.388 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 },
+    { id:  3, placename: 'Great Lakes Mall' ,map: map.gMap, position: { lat: 41.6560, lng: -81.362 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 },
+    { id:  4, placename: 'James A. Garfield' ,map: map.gMap, position: { lat: 41.6650, lng: -81.351 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 },
+    { id:  5, placename: 'Lake Erie' ,map: map.gMap, position: { lat: 41.7125, lng: -81.388 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 },
+    { id:  6, placename: 'Mentor Marsh State Nature Preserve' ,map: map.gMap, position: { lat: 41.7349, lng: -81.315 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 },
+    { id:  7, placename: 'Headlands Beach State Park' ,map: map.gMap, position: { lat: 41.7560, lng: -81.290 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 }
 
 
 ];
@@ -130,15 +130,33 @@ var ViewModel = function(){
     };
     self.currentPlace = ko.observable( this.list()[0] );
     self.searchBox = ko.observable("");
+
     self.searchPlaces = ko.computed(function() {
             if(self.searchBox() === "") {
                 return self.list();
             } else {
-
                 return ko.utils.arrayFilter(self.list(), function(item) {
                     return item.placename().toLowerCase().indexOf(self.searchBox().toLowerCase())>-1;
                 });
             }
         });
+
+    self.computedPlaces = ko.computed(function() {
+        return ko.utils.arrayFilter(self.list(), function(item) {
+            var showItem = item.placename().toLowerCase().indexOf(self.searchBox().toLowerCase()) >= 0;
+            //alert(showItem);
+            if (item.marker){
+                if (showItem) {
+                    //alert('showItem is true');
+                    item.marker.setMap(Map);
+                } else {
+                    //alert('showItem is false');
+                    item.marker.setMap(null);
+                }
+            }
+            return showItem;
+        });
+    });
+
 };
 ko.applyBindings(new ViewModel());
