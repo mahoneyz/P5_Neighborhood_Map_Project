@@ -26,12 +26,13 @@ body {
 	position: absolute;
 	z-index: 1;
 	top: 35px;
-	left: 0px;
+	left: 0;
 	font-size: 1em;
 }
 
-input, textarea {
-	background-color:#666;
+input,
+textarea {
+	background-color: #666;
 	color: #fff;
 }
 
