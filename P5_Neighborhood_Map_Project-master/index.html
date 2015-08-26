@@ -14,7 +14,7 @@
           <li data-bind="text: $data.placename, click: $parent.setCurrentPlace, css: { selected: $data.selected() > 0 }"></li>
         </ul>
         <form action="#">
-            <input class="search" placeholder="search" type="search" name="search" data-bind="value: searchBox, valueUpdate: 'keyup'" autocomplete="off">
+            <input class="search" placeholder="search" type="search" name="search" data-bind="value: searchBox, valueUpdate: 'input'" autocomplete="off">
         </form>
       </div>
     </div>
