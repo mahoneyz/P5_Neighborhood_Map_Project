@@ -29,7 +29,6 @@ var infoBubble = new InfoBubble({
     maxWidth: 300
 });
 
-
 infoBubble.addTab('Wikipedia','No Wikipedia Content found.');
 infoBubble.addTab('Street View','Street View not found for this area.');
 
@@ -42,11 +41,7 @@ var places = [
     { id:  5, placename: 'Lake Erie' ,map: map.gMap, position: { lat: 41.7125, lng: -81.388 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 },
     { id:  6, placename: 'Mentor Marsh State Nature Preserve' ,map: map.gMap, position: { lat: 41.7349, lng: -81.315 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 },
     { id:  7, placename: 'Headlands Beach State Park' ,map: map.gMap, position: { lat: 41.7560, lng: -81.290 }, icon: null, animation: google.maps.Animation.DROP, selected: 0 }
-
-
 ];
-
-
 
 // Marker creation
 var Place = function(place) {
@@ -130,7 +125,6 @@ var ViewModel = function(){
     };
     self.currentPlace = ko.observable( this.list()[0] );
     self.searchBox = ko.observable("");
-
     self.searchPlaces = ko.computed(function() {
             if(self.searchBox() === "") {
                 return self.list();
@@ -140,23 +134,18 @@ var ViewModel = function(){
                 });
             }
         });
-
     self.computedPlaces = ko.computed(function() {
         return ko.utils.arrayFilter(self.list(), function(item) {
             var showItem = item.placename().toLowerCase().indexOf(self.searchBox().toLowerCase()) >= 0;
-            //alert(showItem);
-            if (item.marker){
+            if (item){
                 if (showItem) {
-                    //alert('showItem is true');
-                    item.marker.setMap(Map);
+                    item.setVisible(true);
                 } else {
-                    //alert('showItem is false');
-                    item.marker.setMap(null);
+                    item.setVisible(false);
                 }
             }
             return showItem;
         });
     });
-
 };
 ko.applyBindings(new ViewModel());
